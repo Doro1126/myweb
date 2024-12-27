@@ -12,9 +12,9 @@ const port = 3000;
 
 // 데이터베이스 연결 (원격 MySQL 서버 사용)
 const db = mysql.createConnection({
-  host: '10.10.100.231',
-  user: 'root',
-  password: 'test123',
+  host: 'rds_dns',
+  user: 'admin',
+  password: 'test1234',
   database: 'webapp_db'
 });
 
