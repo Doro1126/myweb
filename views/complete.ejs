@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>신청 완료</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    /* 공통 스타일 */
+    .container {
+      margin: 20px auto;
+      max-width: 700px;
+      text-align: center;
+    }
+
+    .message {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .pub-ip {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .pub-ip a {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .pub-ip a:hover {
+      text-decoration: underline;
+    }
+
+    /* DB 도메인 스타일 */
+    .db-section {
+      margin-top: 25px;
+      padding: 15px;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      text-align: left;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .db-section h3 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .db-dns {
+      font-size: 12px; /* DNS 주소 글씨 크기 감소 */
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+      background: #fff;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      overflow: hidden;
+    }
+
+    .db-dns .dns-value {
+      font-family: monospace;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 12px; /* DNS 주소 글씨 크기 감소 */
+      flex: 1;
+      font-weight: bold;
+    }
+
+    .db-dns .copy-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    .db-dns .copy-btn img {
+      width: 20px;
+      height: 20px;
+    }
+
+    .db-dns .copy-btn:hover img {
+      filter: brightness(1.2);
+    }
+
+    .copy-feedback {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #28a745;
+      text-align: center;
+      display: block;
+      font-weight: bold;
+    }
+
+    /* DB 생성 안내 스타일 */
+    .db-info {
+      margin-top: 25px;
+      padding: 15px;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      text-align: left;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .db-info h3 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .db-info .db-details {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 10px;
+      font-size: 14px;
+      font-family: Arial, sans-serif;
+    }
+
+    .db-info .db-details .label {
+      font-weight: bold;
+      background: #f1f1f1;
+      padding: 8px 12px;
+      border-radius: 4px;
+      text-align: right;
+    }
+
+    .db-info .db-details .value {
+      background: #fff;
+      border: 1px solid #ddd;
+      font-family: monospace;
+      font-weight: bold;
+      padding: 8px 12px;
+      border-radius: 4px;
+    }
+
+    .buttons {
+      margin-top: 30px;
+    }
+
+    .buttons button {
+      background: #007bff;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .buttons button:hover {
+      background: #0056b3;
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const copyBtn = document.getElementById('copy-db-dns');
+      const textElement = document.getElementById('db-dns');
+      const feedbackElement = document.getElementById('db-dns-feedback');
+
+      copyBtn.addEventListener('click', () => {
+        if (textElement) {
+          const text = textElement.textContent.trim();
+
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text)
+              .then(() => {
+                feedbackElement.style.display = 'block';
+                feedbackElement.textContent = '✅ 복사가 완료되었습니다!';
+              })
+              .catch(err => {
+                console.error('❌ 복사 실패:', err);
+                feedbackElement.style.display = 'block';
+                feedbackElement.textContent = '❌ 복사에 실패했습니다!';
+                feedbackElement.style.color = 'red';
+              });
+          } else {
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = text;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            try {
+              document.execCommand('copy');
+              feedbackElement.style.display = 'block';
+              feedbackElement.textContent = '✅ 복사가 완료되었습니다!';
+            } catch (err) {
+              console.error('❌ 복사 실패:', err);
+              feedbackElement.style.display = 'block';
+              feedbackElement.textContent = '❌ 복사에 실패했습니다!';
+              feedbackElement.style.color = 'red';
+            } finally {
+              document.body.removeChild(tempTextarea);
+            }
+          }
+        }
+      });
+    });
+  </script>
+</head>
+<body id="complete-page">
+  <div class="container">
+    <h1>✅ 신청 완료</h1>
+    <p class="message">신청이 성공적으로 완료되었습니다!</p>
+    <p class="welcome">
+      환영합니다, <strong><%= user.user_id %></strong>님! 
+      <a href="/login">로그아웃</a>
+    </p>
+
+    <div class="pub-ip">
+      📡 접속할 IP 주소: 
+      <% if (pub_ip && pub_ip !== 'N/A') { %>
+        <a href="http://<%= pub_ip %>" target="_blank"><%= pub_ip %></a>
+      <% } else { %>
+        N/A
+      <% } %>
+    </div>
+
+    <% if (app === 'xe') { %>
+      <div class="db-section">
+        <h3>DB도메인</h3>
+        <div class="db-dns">
+          <span class="dns-value" id="db-dns"><%= db_dns %></span>
+          <button class="copy-btn" id="copy-db-dns">
+            <img src="https://img.icons8.com/ios-glyphs/30/000000/copy.png" alt="복사 아이콘">
+          </button>
+        </div>
+        <div class="copy-feedback" id="db-dns-feedback"></div>
+      </div>
+    <% } %>
+
+    <div class="db-info">
+      <h3>DB 및 사용자 계정 생성 안내</h3>
+      <div class="db-details">
+        <div class="label">DB 아이디</div><div class="value"><%= user.user_id %></div>
+        <div class="label">DB 비밀번호</div><div class="value"><%= user.user_id %></div>
+        <div class="label">DB 이름</div><div class="value"><%= user.user_id %></div>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button onclick="window.location.href='/board'">재 신청</button>
+    </div>
+  </div>
+</body>
+</html>

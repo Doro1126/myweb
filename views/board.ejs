@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>대시보드 - 서비스 신청</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body id="board-page">
+  <div class="container">
+    <h1>서비스 신청</h1>
+    <p class="welcome">
+      환영합니다, <strong><%= user.user_id %></strong>님! 
+      <a href="/login">로그아웃</a>
+    </p>
+
+    <form action="/board" method="POST">
+      <!-- Application 선택 -->
+      <div class="form-group">
+        <label for="app">Application</label>
+        <select name="app" id="app" required>
+          <option value="" selected disabled>-- 선택하세요 --</option>
+          <option value="wp">WordPress</option>
+          <option value="xe">XpressEngine</option>
+        </select>
+      </div>
+
+      <!-- Version 선택 -->
+      <div class="form-group">
+        <label for="ver">Version</label>
+        <select name="ver" id="ver" required>
+          <option value="" selected disabled>-- 선택하세요 --</option>
+          <option value="v1">V1</option>
+        </select>
+      </div>
+
+      <!-- RAM & CPU 옵션 선택 -->
+      <div class="resource-group">
+        <label>리소스 옵션 (RAM & CPU)</label>
+        <div class="resource-options">
+          <label>
+            <input type="radio" name="resource" value="ram512-cpu0.5" required>
+            <div class="option">
+              <strong>RAM: 512MB</strong><br>
+              CPU: 0.5 Core
+            </div>
+          </label>
+          <label>
+            <input type="radio" name="resource" value="ram1024-cpu1" required>
+            <div class="option">
+              <strong>RAM: 1024MB</strong><br>
+              CPU: 1 Core
+            </div>
+          </label>
+          <label>
+            <input type="radio" name="resource" value="ram2048-cpu2" required>
+            <div class="option">
+              <strong>RAM: 2048MB</strong><br>
+              CPU: 2 Core
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn">신청하기</button>
+    </form>
+  </div>
+</body>
+</html>
