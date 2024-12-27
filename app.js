@@ -12,7 +12,7 @@ const port = 80;
 
 // 데이터베이스 연결 (원격 MySQL 서버 사용)
 const db = mysql.createConnection({
-  host: 'rds_dns',
+  host: 'terraform-20241227060603127100000002.cxouwm6o45aj.ap-northeast-1.rds.amazonaws.com',
   user: 'admin',
   password: 'test1234',
   database: 'webapp_db'
