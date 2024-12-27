@@ -8,7 +8,7 @@ const axios = require('axios');
 require('dotenv').config();
 
 const app = express();
-const port = 3000;
+const port = 80;
 
 // 데이터베이스 연결 (원격 MySQL 서버 사용)
 const db = mysql.createConnection({
