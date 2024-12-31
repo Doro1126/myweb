@@ -106,7 +106,7 @@ app.post('/signup', (req, res) => {
     if (err) {
       return res.status(500).send('회원가입 실패: 비밀번호 해싱 오류');
     }
-    db.query('INSERT INTO users (user_id, password, app, ver, pub_ip, replicas) VALUES (?, ?, ?, ?, ?, ?)', [user_id, hash, '', '', '', 1], (err) => {
+    db.query('INSERT INTO users (user_id, password, app, ver, pub_ip) VALUES (?, ?, ?, ?, ?)', [user_id, hash, '', '', ''], (err) => {
       if (err) {
         return res.status(500).send('회원가입 실패');
       }
